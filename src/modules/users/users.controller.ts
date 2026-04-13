@@ -42,10 +42,16 @@ export class UsersController {
         return this.usersService.updateCoverImage(user.id, uploadResult);
     }
 
-    @Get(':username')
+    @Get('profile/:username')
     @UseGuards(JwtAuthGuard)
     async getUserProfile(@Param('username') username: string) {
         return this.usersService.getUserProfile(username);
+    }
+
+    @Get('suggest')
+    @UseGuards(JwtAuthGuard)
+    async suggestUsers(@CurrentUser() user: User) {
+        return this.usersService.suggestUsers(user.id);
     }
 
 }

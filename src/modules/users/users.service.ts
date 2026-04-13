@@ -1,7 +1,7 @@
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { User } from './entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
@@ -35,9 +35,9 @@ export class UsersService {
         if (!user) {
             throw new NotFoundException('User not found');
         }
-        
+
         const { username, email, fullName, password, bio } = updateUserDto;
-        
+
         // Validation for uniqueness
         if (email && email !== user.email) {
             const existingEmail = await this.usersRepository.findOne({ where: { email } });
@@ -58,7 +58,7 @@ export class UsersService {
         if (fullName) user.fullName = fullName;
         if (password) user.password = password;
         if (bio !== undefined) user.bio = bio;
-        
+
         if (uploadResult) {
             user.profileImage = uploadResult.secure_url;
             user.profileImagePublicId = uploadResult.public_id;
@@ -83,5 +83,13 @@ export class UsersService {
         user.coverImage = uploadResult.secure_url;
         user.coverImagePublicId = uploadResult.public_id;
         return this.usersRepository.save(user);
+    }
+
+    async suggestUsers(userId: string) {
+        const users = await this.usersRepository.find({
+            where: { id: Not(userId) },
+            take: 5
+        });
+        return users;
     }
 }
