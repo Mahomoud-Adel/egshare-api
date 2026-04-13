@@ -13,6 +13,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import { Post } from '../../posts/entities/post.entity';
 import { Comment } from '../../comments/entities/comment.entity';
+import { Follow } from './follow.entity';
 
 @Entity('users') 
 export class User {
@@ -62,6 +63,13 @@ export class User {
 
     @OneToMany(() => Comment, (comment) => comment.user)
     comments: Comment[];
+
+    @OneToMany(() => Follow, (follow) => follow.following)
+    followers: Follow[];
+
+    @OneToMany(() => Follow, (follow) => follow.follower)
+    following: Follow[];
+
     @BeforeInsert()
     @BeforeUpdate()
     async hashPassword() {
