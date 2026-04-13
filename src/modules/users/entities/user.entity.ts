@@ -25,7 +25,6 @@ export class User {
 
     @Index({ unique: true })
     @Column({ unique: true, length: 150 })
-    @Exclude({ toPlainOnly: true })
     email: string;
 
     @Column()
@@ -71,4 +70,5 @@ export class User {
             this.password = await bcrypt.hash(this.password, salt);
         }
     }
+    
 }

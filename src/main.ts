@@ -9,7 +9,13 @@ async function bootstrap() {
     new TransformInterceptor(),
     new ClassSerializerInterceptor(app.get(Reflector))
   );
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe(
+    {
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }
+  ));
   // app.useGlobalFilters(new HttpExceptionFilter());
   await app.listen(process.env.PORT ?? 3000);
 }
