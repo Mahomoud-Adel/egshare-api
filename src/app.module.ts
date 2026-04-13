@@ -5,7 +5,6 @@ import { CommentsModule } from './modules/comments/comments.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { CloudinaryModule } from './cloudinary/cloudinary.module';
 import databaseConfig from './config/database.config';
 
 @Module({
@@ -21,6 +20,6 @@ import databaseConfig from './config/database.config';
       useFactory: (config: ConfigService) =>
         config.get<TypeOrmModuleOptions>('database')!,
     }),
-    UsersModule, PostsModule, CommentsModule, AuthModule, CloudinaryModule],
+    UsersModule, PostsModule, CommentsModule, AuthModule],
 })
 export class AppModule { }

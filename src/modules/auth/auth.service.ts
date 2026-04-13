@@ -14,7 +14,7 @@ export class AuthService {
         private readonly jwtService: JwtService
     ) { }
 
-    async register(createUserDto: CreateUserDto, uploadResult: any) {
+    async register(createUserDto: CreateUserDto) {
         const existingUser = await this.usersRepository.findOne({
             where: [
                 { email: createUserDto.email },
@@ -30,8 +30,6 @@ export class AuthService {
 
         const user = this.usersRepository.create({
             ...createUserDto,
-            profileImage: uploadResult.secure_url,
-            profileImagePublicId: uploadResult.public_id,
         });
 
         await this.usersRepository.save(user);

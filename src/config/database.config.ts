@@ -8,9 +8,10 @@ export default registerAs('database', () => ({
     logging: process.env.NODE_ENV === 'development',
     ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
     extra: {
-        max: 20,
-        connectionTimeoutMillis: 2000,
+        max: 10,
+        connectionTimeoutMillis: 10000,
         idleTimeoutMillis: 30000,
+        keepalive: true,
         ...(process.env.NODE_ENV === 'production' && {
             ssl: {
                 rejectUnauthorized: false,
